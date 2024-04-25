@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div id="content" style="margin-top: 50px; margin-bottom: 50px;">
+        <div class="page-heading about-page-heading" id="top" style="background: none">
+            <div class="profile" align="center">
+                <table style="width: 30vw">
+                    <tr style="border-bottom: 1px solid black;">
+                        <td>Эл. почта:</td>
+                        <td align="right">{{ user.email }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid black;">
+                        <td>Имя:</td>
+                        <td align="right">{{ user.first_name }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid black;">
+                        <td>Фамилия:</td>
+                        <td align="right">{{ user.last_name }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid black;">
+                        <td>Дата регистрации:</td>
+                        <td align="right">{{ user.date_joined }}</td>
+                    </tr>
+                    <tr>
+                        <td align="left"><a href="{% url 'favourites_url' %}">Избранное</a></td>
+                        <td align="right"><a href="{% url 'history_url' %}">История</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

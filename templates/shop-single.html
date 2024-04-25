@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Open Content -->
+    <section class="bg-light">
+        <div class="container pb-5">
+            <div class="row">
+                <div class="col-lg-5 mt-5">
+                    <div class="card mb-3">
+                        <img class="card-img img-fluid" src="{{ product.thumb.url }}" alt="Card image cap" id="product-detail">
+                    </div>
+                    <div class="row">
+                        <!--Start Controls-->
+                        <div class="col-1 align-self-center">
+                            <a href="#multi-item-example" role="button" data-bs-slide="prev">
+                                <i class="text-dark fas fa-chevron-left"></i>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </div>
+                        <!--End Controls-->
+                        <!--Start Carousel Wrapper-->
+                        <div id="multi-item-example" class="col-10 carousel slide carousel-multi-item" data-bs-ride="carousel">
+                            <!--Start Slides-->
+                            <div class="carousel-inner product-links-wap" role="listbox">
+                                {% for elem in image_list %}
+                                    {% if elem.num == 1 %}
+                                        <div class="carousel-item active">
+                                            <div class="row">
+                                                {% for image in elem.images %}
+                                                    <div class="col-4">
+                                                        <a href="#">
+                                                            <img class="card-img img-fluid" src="{{ image.image.url }}">
+                                                        </a>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="carousel-item">
+                                            <div class="row">
+                                                {% for image in elem.images %}
+                                                    <div class="col-4">
+                                                        <a href="#">
+                                                            <img class="card-img img-fluid" src="{{ image.image.url }}">
+                                                        </a>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <!--End Slides-->
+                        </div>
+                        <!--End Carousel Wrapper-->
+                        <!--Start Controls-->
+                        <div class="col-1 align-self-center">
+                            <a href="#multi-item-example" role="button" data-bs-slide="next">
+                                <i class="text-dark fas fa-chevron-right"></i>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                        <!--End Controls-->
+                    </div>
+                </div>
+                <!-- col end -->
+                <div class="col-lg-7 mt-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="h2">{{ product.name }}</h1>
+                            <p class="h3 py-2">${{ product.price }}</p>
+                            <ul class="list-inline" style="margin-bottom: 0px;">
+                                <li class="list-inline-item">
+                                    <h6>Brand:</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p><strong>{{ product.brand.name }}</strong></p>
+                                </li>
+                            </ul>
+
+                            <img class="img-fluid" style="max-width: 140%" src="{{ product.brand.thumb.url }}" alt="Brand Logo">
+
+                            <h6 style="margin-top: 10px;">Description:</h6>
+                            <p>{{ product.description | linebreaksbr }}</p>
+
+                            <div class="row pb-3" style="margin-top: 50px;">
+                                <div class="col d-grid">
+                                    <button class="btn btn-success btn-lg" id="{{ product.id }}" onclick="addCart(this.id)">Add To Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Close Content -->
+    <script>
+        function addCart(product_id) {
+            let Request = new XMLHttpRequest();
+
+            Request.onreadystatechange = function() {
+                if (Request.readyState == 4) {
+                    if (Request.status == 200) {
+                        document.getElementById(product_id).innerHTML = 'Added!';
+                    } else if (Request.status == 401) {
+                        window.location.href = "{% url 'login_url' %}";
+                    }
+                }
+            }
+
+            Request.open("POST", "{% url 'cart_add' %}", true);
+            Request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+            Request.setRequestHeader('x-csrftoken', '{{ csrf_token }}');
+            let data = {
+                'product_id': product_id
+            }
+            Request.send(JSON.stringify(data));
+        }
+    </script>
+{% endblock content %}

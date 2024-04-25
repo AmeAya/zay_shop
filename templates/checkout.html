@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load cart_tag %}
+{% load static %}
+{% block content %}
+    <div id="content" style="margin-top: 50px; margin-bottom: 50px;">
+        <div class="page-heading" style="background: none">
+            <div class="container" align="center" style="width: 35vw">
+                <div class="card px-4">
+                    <p class="h4 py-3">Форма оплаты</p>
+                        <div class="row gx-3">
+                            <div class="col-12">
+                                <div class="d-flex flex-column">
+                                    <p class="text mb-1" align="left">Владелец карты</p>
+                                    <input class="form-control mb-3" type="text" placeholder="Имя Фамилия" required="required">
+                                </div>
+                            </div>
+                        <div class="col-12">
+                            <div class="d-flex flex-column">
+                                <p class="text mb-1" align="left">Номер карты</p>
+                                <input class="form-control mb-3" type="text" placeholder="1234 5678 9012 3456" required="required">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex flex-column">
+                                <p class="text mb-1" align="left">Дейсвительна до</p>
+                                <input class="form-control mb-3" type="text" placeholder="MM/YYYY" required="required">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex flex-column">
+                                <p class="text mb-1" align="left">CVV/CVC</p>
+                                <input class="form-control mb-3 pt-2 " type="password" placeholder="***" required="required">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p class="text mb-1" align="center">Доставка (+30$)</p>
+                            <input class="form-control mb-3 pt-2" type="checkbox" id="delivery" onchange="deliveryFunction()">
+                        </div>
+
+                        <div class="col-12 location" hidden="hidden">
+                            <div class="d-flex flex-column">
+                                <p class="text mb-1" align="left">Страна</p>
+                                <input class="form-control mb-3" type="text" placeholder="Казахстан">
+                            </div>
+                        </div>
+                        <div class="col-4 location" hidden="hidden">
+                            <div class="d-flex flex-column">
+                                <p class="text mb-1" align="left">Город</p>
+                                <input class="form-control mb-3" type="text" placeholder="Алматы">
+                            </div>
+                        </div>
+                        <div class="col-4 location" hidden="hidden">
+                            <div class="d-flex flex-column">
+                                <p class="text mb-1" align="left">Адрес</p>
+                                <input class="form-control mb-3 pt-2 " type="password" placeholder="Полный адрес">
+                            </div>
+                        </div>
+                        <div class="col-4 location" hidden="hidden">
+                            <div class="d-flex flex-column">
+                                <p class="text mb-1" align="left">Индекс</p>
+                                <input class="form-control mb-3 pt-2 " type="password" placeholder="16501">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="btn btn-outline-secondary mb-3" onclick="location.href='{% url 'buy_url' %}'">
+                                <span class="ps-3" id="total">Оплатить ${{ total }}</span>
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function deliveryFunction() {
+            let total = {{ total }};
+            if (document.getElementById('delivery').checked) {
+                total += 30;
+                for (let div of document.getElementsByClassName('location')) {
+                    div.hidden = '';
+                }
+            } else {
+                for (let div of document.getElementsByClassName('location')) {
+                    div.hidden = 'hidden';
+                }
+            }
+            document.getElementById('total').innerHTML = 'Оплатить $' + total;
+        }
+    </script>
+{% endblock content %}

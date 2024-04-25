@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load cart_tag %}
+{% load static %}
+{% block content %}
+    <div id="content" style="margin-top: 50px; margin-bottom: 50px;">
+        <div class="page-heading" style="background: none">
+            <div class="container" align="center">
+                <h3 align="center">Ваша Корзина:</h3>
+                <table style="width: 80vw;">
+                    <tr>
+                        <th>Товар:</th>
+                        <th>Цена:</th>
+                        <th>Фото:</th>
+                        <th>Действия:</th>
+                    </tr>
+                    {% for key,value in request.session.cart.items %}
+                    <tr>
+                        <td>{{ value.name }}</td>
+                        <td>${{ value.price }}</td>
+                        <td><img src="{{ value.image }}" style="height: 100px; width: 100px"></td>
+                        <td>
+                            <a href="{% url 'item_clear' value.product_id %}" style="margin-left: 25px;">
+                                <i class="fa fa-trash" aria-hidden="true" style="color: black"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <h6 align="left">Кол-во товаров: {{ request.session.cart | length }}</h6>
+                <h3 align="left">Общая сумма: ${{ total }}</h3>
+                <button class="btn btn-outline-secondary" onclick="location.href='{% url 'checkout_url' %}'">Купить</button>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

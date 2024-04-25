@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load cart_tag %}
+{% load static %}
+{% block content %}
+    <div id="content" style="margin-top: 50px; margin-bottom: 50px;">
+        <div class="page-heading" style="background: none">
+            <div class="container" align="center">
+                <h3 align="center">Order History:</h3>
+                <table style="width: 80vw; border-collapse: separate; border-spacing: 20px;">
+                    <tr>
+                        <th>Id:</th>
+                        <th>Items:</th>
+                        <th>Total:</th>
+                        <th>Datetime:</th>
+                        <th>Status:</th>
+                    </tr>
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td>
+                                <ul>
+                                    {% for item in order.items.all %}
+                                        <li>
+                                            <a href="{% url 'product_detail_url' item.product.id %}">
+                                                {{ item.product.name }} - {{ item.quantity }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>${{ order.total }}</td>
+                            <td>{{ order.datetime }}</td>
+                            <td>{{ order.status }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

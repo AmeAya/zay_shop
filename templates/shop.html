@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Start Content -->
+    <div class="container py-5">
+        <div class="row">
+
+            <div class="col-lg-3">
+                <h1 class="h2 pb-4">Categories</h1>
+                <ul class="list-unstyled templatemo-accordion">
+                    <li class="pb-3">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                            Категории
+                            <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
+                        </a>
+                        <ul class="collapse show list-unstyled pl-3">
+                            {% for gender in genders %}
+                                <li>
+                                    <a class="text-decoration-none" href="{% url 'product_gender_url' gender.id %}">
+                                        {{ gender.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="pb-3">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                            Подкатегории
+                            <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                        </a>
+                        <ul id="collapseThree" class="collapse list-unstyled pl-3">
+                            {% for category in categories %}
+                                <li>
+                                    <a class="text-decoration-none" href="{% url 'product_category_url' category.id %}">
+                                        {{ category.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-inline shop-top-menu pb-3 pt-1">
+                            <li class="list-inline-item">
+                                <a class="h3 text-dark text-decoration-none mr-3" href="{% url 'product_all_url' %}">Все</a>
+                            </li>
+                            {% for gender in genders %}
+                                <li class="list-inline-item">
+                                    <a class="h3 text-dark text-decoration-none mr-3"
+                                       href="{% url 'product_gender_url' gender.id %}">
+                                        {{ gender.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for product in products %}
+                        <div class="col-md-4">
+                            <div class="card mb-4 product-wap rounded-0">
+                                <div class="card rounded-0">
+                                    <img class="card-img rounded-0 img-fluid" src="{{ product.thumb.url }}">
+                                    <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                        <ul class="list-unstyled">
+                                            <li onclick="addFavourite(this.id)" id="fav_{{ product.id }}" style="cursor: pointer;"><a class="btn btn-success text-white"><i class="far fa-heart"></i></a></li>
+                                            <li><a class="btn btn-success text-white mt-2" href="{% url 'product_detail_url' product.id %}"><i class="far fa-eye"></i></a></li>
+                                            <li onclick="addCart(this.id)" id="cart_{{ product.id }}" style="cursor: pointer;"><a class="btn btn-success text-white mt-2"><i class="fas fa-cart-plus"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <a href="shop-single.html" class="h3 text-decoration-none"><b>{{ product.name }}</b></a>
+                                    <ul class="w-100 list-unstyled d-flex justify-content-between mb-2">
+                                        <li>{{ product.brand.name }}</li>
+                                    </ul>
+                                    <p class="text-left mb-0">${{ product.price }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if products %}
+                    <div class="row">
+                        <ul class="pagination pagination-lg justify-content-end">
+                            {% for page in pages %}
+                                {% if page.active %}
+                                    <li class="page-item disabled">
+                                        {% if selected %}
+                                            <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0"
+                                               href="{% url page.url selected %}?page={{ page.num }}">
+                                                {{ page.num }}
+                                            </a>
+                                        {% else %}
+                                            <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0"
+                                               href="{% url page.url %}?page={{ page.num }}">
+                                                {{ page.num }}
+                                            </a>
+                                        {% endif %}
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        {% if selected %}
+                                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
+                                               href="{% url page.url selected %}?page={{ page.num }}">
+                                                {{ page.num }}
+                                            </a>
+                                        {% else %}
+                                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
+                                               href="{% url page.url %}?page={{ page.num }}">
+                                                {{ page.num }}
+                                            </a>
+                                        {% endif %}
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+    <!-- End Content -->
+    <script>
+        function addFavourite(product_id) {
+            let Request = new XMLHttpRequest();
+
+            Request.onreadystatechange = function() {
+                if (Request.readyState == 4) {
+                    if (Request.status == 200) {
+                        let icon = document.getElementById(product_id).children[0].children[0];
+                        if (icon.classList.contains('fa-heart')) {
+                            icon.classList.remove('fa-heart');
+                            icon.classList.add('fa-heart-o');
+                        } else {
+                            icon.classList.remove('fa-heart-o');
+                            icon.classList.add('fa-heart');
+                        }
+                    } else if (Request.status == 401) {
+                        window.location.href = "{% url 'login_url' %}";
+                    }
+                }
+            }
+
+            Request.open("POST", "{% url 'add_favourites_api_url' %}", true);
+            Request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+            Request.setRequestHeader('x-csrftoken', '{{ csrf_token }}');
+            let data = {
+                'product_id': product_id
+            }
+            Request.send(JSON.stringify(data));
+        }
+
+        function addCart(product_id) {
+            let Request = new XMLHttpRequest();
+
+            Request.onreadystatechange = function() {
+                if (Request.readyState == 4) {
+                    if (Request.status == 200) {
+                        let icon = document.getElementById(product_id).children[0].children[0];
+                        if (icon.classList.contains('fa-cart-plus')) {
+                            icon.classList.remove('fa-cart-plus');
+                            icon.classList.add('fa-trash-o');
+                        } else {
+                            icon.classList.remove('fa-trash-o');
+                            icon.classList.add('fa-cart-plus');
+                        }
+                    } else if (Request.status == 401) {
+                        window.location.href = "{% url 'login_url' %}";
+                    }
+                }
+            }
+
+            Request.open("POST", "{% url 'cart_add' %}", true);
+            Request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+            Request.setRequestHeader('x-csrftoken', '{{ csrf_token }}');
+            let data = {
+                'product_id': product_id
+            }
+            Request.send(JSON.stringify(data));
+        }
+    </script>
+{% endblock content %}

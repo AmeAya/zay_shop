@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div id="content" style="margin-top: 50px;">
+        <div class="page-heading about-page-heading" id="top" style="background: none">
+            <div class="form">
+                <form action="{% url 'register_url' %}" method="post">
+                    {% csrf_token %}
+                    <h5 id="message"></h5>
+                    <br>
+                    <p>
+                        <input type="email" id="email" name="email" placeholder="Email" required>
+                    </p>
+                    <p>
+                        <input type="password" id="password" name="password" placeholder="Password" required onkeyup="check()">
+                    </p>
+                    <p>
+                        <input type="password" id="confirm_password" placeholder="Confirm Password" required onkeyup="check()">
+                    </p>
+                    <p>
+                        <input id="submit" type="submit" value="register" disabled="disabled">
+                    </p>
+                    {% if error %}
+                        <p style="color: red;">{{ error }}</p>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+    var check = function() {
+        if (document.getElementById('password').value ==
+            document.getElementById('confirm_password').value) {
+            document.getElementById('message').style.color = 'green';
+            document.getElementById('message').innerHTML = 'Password matching';
+            document.getElementById('submit').disabled = '';
+        } else {
+            document.getElementById('message').style.color = 'red';
+            document.getElementById('message').innerHTML = 'Password not matching';
+            document.getElementById('submit').disabled = 'disabled';
+        }
+    }
+    </script>
+{% endblock content %}

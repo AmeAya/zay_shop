@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Start Content Page -->
+    <div class="container-fluid bg-light py-5">
+        <div class="col-md-6 m-auto text-center">
+            <h1 class="h1">Свяжитесь с Нами</h1>
+            <p>
+                Напишите нам сообщение :)
+            </p>
+        </div>
+    </div>
+
+    <!-- Start Map -->
+    <div id="mapid" style="width: 100%; height: 300px; margin-bottom: 30px;">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2906.4542347295096!2d76.94939847653814!3d43.24190107893467!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38836ee5463fffff%3A0x18bf9a2d589649bb!2z0L_RgC3Rgi4g0JDQsdCw0Y8gONCwLCDQkNC70LzQsNGC0YsgMDUwMDEw!5e0!3m2!1sru!2skz!4v1713865064642!5m2!1sru!2skz" width="100%" height="400px" frameborder="0" style="border:0" allowfullscreen></iframe>
+    </div>
+    <!-- End Map -->
+
+    <!-- Start Contact -->
+    <div class="container py-5">
+        <div class="row py-5">
+            <form class="col-md-9 m-auto" method="post" role="form">
+                <div class="row">
+                    <div class="form-group col-md-6 mb-3">
+                        <label for="inputname">Имя</label>
+                        <input type="text" class="form-control mt-1" id="name" name="name" placeholder="Имя">
+                    </div>
+                    <div class="form-group col-md-6 mb-3">
+                        <label for="inputemail">Email</label>
+                        <input type="email" class="form-control mt-1" id="email" name="email" placeholder="Адрес эл. почты">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="inputsubject">Тема</label>
+                    <input type="text" class="form-control mt-1" id="subject" name="subject" placeholder="Тема письма">
+                </div>
+                <div class="mb-3">
+                    <label for="inputmessage">Сообщение</label>
+                    <textarea class="form-control mt-1" id="message" name="message" placeholder="Текст вашего письма" rows="8"></textarea>
+                </div>
+                <div class="row">
+                    <div class="col text-end mt-2">
+                        <button type="submit" class="btn btn-success btn-lg px-3">Отправить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- End Contact -->
+{% endblock content %}
