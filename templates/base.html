@@ -13,8 +13,6 @@
     <link rel="stylesheet" href="{% static 'css/templatemo.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
     <link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/fontawesome.css' %}">
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
@@ -92,11 +90,11 @@
                             <i class="fa fa-fw fa-user text-dark mr-3"></i>
                         </a>
                         <a class="nav-icon position-relative text-decoration-none" href="{% url 'logout_url' %}">
-                            <i class="fa fa-sign-out text-dark mr-3"></i>
+                            <i class="fa fa-sign-out-alt text-dark mr-3"></i>
                         </a>
                     {% else %}
                         <a class="nav-icon position-relative" href="{% url 'login_url' %}">
-                            <i class="fa fa-sign-in text-dark mr-3" aria-hidden="true"></i>
+                            <i class="fa fa-sign-in-alt text-dark mr-3" aria-hidden="true"></i>
                         </a>
                     {% endif %}
                 </div>
