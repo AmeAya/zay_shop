@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 from .models import *
+from .serializers import *
 
 
 def homeView(request):
@@ -471,3 +472,32 @@ class AddCartApiView(APIView):
             cart.remove(product=product)
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
+class CategoryByGenderAPIView(APIView):
+    permission_classes = []
+
+    def get(self, request):
+        gender = Gender.objects.get(id=request.GET.get('id'))
+        categories = Category.objects.filter(gender=gender)
+        data = CategorySerializer(categories, many=True).data
+        return Response(data=data, status=status.HTTP_200_OK)
+
+
+class ProductsByCategoryAPIView(APIView):
+    permission_classes = []
+
+    def get(self, request):
+        category = Category.objects.get(id=request.GET.get('id'))
+        products = Product.objects.filter(category=category)
+        data = ProductSerializer(products, many=True).data
+        return Response(data=data, status=status.HTTP_200_OK)
+
+
+class ProductDetailAPIView(APIView):
+    permission_classes = []
+
+    def get(self, request):
+        product = Product.objects.get(id=request.GET.get('id'))
+        data = ProductSerializer(product, many=False).data
+        return Response(data=data, status=status.HTTP_200_OK)

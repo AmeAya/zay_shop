@@ -19,6 +19,9 @@ urlpatterns = [
 
     path('api/add_favourites', AddFavouritesApiView.as_view(), name='add_favourites_api_url'),
     path('api/add_cart', AddCartApiView.as_view(), name='cart_add'),
+    path('api/category_by_gender', CategoryByGenderAPIView.as_view(), name='category_by_gender_api_url'),
+    path('api/products_by_category', ProductsByCategoryAPIView.as_view(), name='products_by_category_api_url'),
+    path('api/product_detail', ProductDetailAPIView.as_view(), name='product_detail_api_url'),
 
     path('', homeView, name='home_url'),
 ]
