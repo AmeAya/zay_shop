@@ -124,6 +124,16 @@
     {% block content %}
     {% endblock content %}
 
+    <div class="container">
+        <div class="btn-holder" style="position: fixed; bottom: 20px; right: 20px;">
+            <h6>
+                Need Help?
+                <img src="{% static 'icons/telegram.svg' %}" width="60vw" style="cursor: pointer;"
+                     onclick="window.open('https://web.telegram.org/k/#@zayshopbot')">
+            </h6>
+        </div>
+    </div>
+
     <!-- Start Footer -->
     <footer class="bg-dark" id="tempaltemo_footer">
         <div class="container">
